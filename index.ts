@@ -1,4 +1,4 @@
-import express, {Express, Request, Response} from 'express';
+import express, {Express} from 'express';
 import dotenv from 'dotenv';
 
 import dbConfig from './db';
@@ -23,9 +23,7 @@ const startServer = async () => {
   dbConfig
     .authenticate()
     .then(() => {
-      dbConfig.sync({
-        alter: true,
-      });
+      dbConfig.sync();
       console.log('DB instantiated');
     })
     .catch((err) => {
