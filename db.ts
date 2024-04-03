@@ -1,19 +1,20 @@
-import { Sequelize } from "sequelize-typescript";
+import {Sequelize} from 'sequelize-typescript';
+import CsvModel from './csv/csv.model';
 
 const dbConfig = {
-  dbName: process.env.DB_NAME || "csvimporter",
-  dbUser: process.env.DB_USER || "postgres",
-  dbPassword: process.env.DB_PASSWORD || "root",
-  dbHost: process.env.DB_HOST || "localhost",
+  dbName: process.env.DB_NAME || 'csvimporter',
+  dbUser: process.env.DB_USER || 'postgres',
+  dbPassword: process.env.DB_PASSWORD || 'root',
+  dbHost: process.env.DB_HOST || 'localhost',
 };
 
 const DataBaseSetup = new Sequelize({
   database: dbConfig.dbName,
-  dialect: "postgres",
+  dialect: 'postgres',
   username: dbConfig.dbUser,
   password: dbConfig.dbPassword,
   logging: false,
-  // models: [User, Structure, SubStructure],
+  models: [CsvModel],
   repositoryMode: true,
   host: dbConfig.dbHost,
 });
