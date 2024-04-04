@@ -1,14 +1,17 @@
-import {Response, Request, NextFunction} from 'express';
-import {csvService} from '.';
+import { Response, Request, NextFunction } from "express";
+import { csvService } from ".";
 
 class CsvController {
-  async parseCsv(req: Request, res: Response, next: NextFunction) {
+  async parseDataFromFilePath(req: Request, res: Response, next: NextFunction) {
     try {
-      await csvService.storeData();
+      const { filePath, headers } = req.body;
+
+      // Generic function attempt.
+      await csvService.storeData(filePath, headers);
 
       return res.status(200).json({
         data: null,
-        message: 'Data stored successfully!',
+        message: "Data stored successfully!",
         status: 200,
       });
     } catch (err) {

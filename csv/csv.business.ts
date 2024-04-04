@@ -1,34 +1,26 @@
-import csv from 'csv-parser';
-import fs from 'fs';
+import csv from "csv-parser";
+import fs from "fs";
 
-import {headers, type IResult} from './csv.type';
+import { headers, type IResult } from "./csv.type";
 
 export interface ICsvBusiness {
-  parseCsv(): Promise<IResult[]>;
+  parseCsv<T>(filePath: string, headers: string[]): Promise<T[]>;
 }
 
 export default class CsvBusiness implements ICsvBusiness {
-  public async parseCsv(): Promise<IResult[]> {
-    const results: IResult[] = [];
+  public async parseCsv<T>(filePath: string, headers: string[]): Promise<T[]> {
+    const results: T[] = [];
 
     return new Promise((resolve, reject) => {
-      try {
-        fs.createReadStream('csv100.csv')
-          .pipe(
-            csv({
-              headers: headers,
-            })
-          )
-          .on('data', (data: any) => results.push(data))
-          .on('end', () => {
-            results.forEach((result) => {
-              delete result.id;
-            });
-            resolve(results);
-          });
-      } catch (err) {
-        console.log('csv file not found');
-      }
+      fs.createReadStream(filePath)
+        .pipe(csv({ headers: headers }))
+        .on("data", (data: any) => results.push(data))
+        .on("end", () => {
+          resolve(results);
+        })
+        .on("error", (error) => {
+          reject(error);
+        });
     });
   }
 }
