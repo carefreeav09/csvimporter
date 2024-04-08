@@ -1,11 +1,11 @@
-import { Repository } from "sequelize-typescript";
+import {Repository} from 'sequelize-typescript';
 
-import CsvModel from "./csv.model";
-import { ICsvBusiness } from "./csv.business";
-import { IResult } from "./csv.type";
+import CsvModel from './csv.model';
+import {ICsvBusiness} from './csv.business';
+import {IResult} from './csv.type';
 
 export interface ICsvService {
-  storeData(filePath: string, headers: string[]): Promise<void>;
+  storeData(data: IResult[]): Promise<void>;
 }
 
 class CsvService implements ICsvService {
@@ -17,9 +17,7 @@ class CsvService implements ICsvService {
     this.business = _business;
   }
 
-  public async storeData(filePath: string, headers: string[]): Promise<void> {
-    const data = await this.business.parseCsv<IResult>(filePath, headers);
-
+  public async storeData(data: IResult[]): Promise<void> {
     await this.repository.bulkCreate(data);
   }
 }

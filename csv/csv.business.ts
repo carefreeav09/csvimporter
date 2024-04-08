@@ -1,7 +1,5 @@
-import csv from "csv-parser";
-import fs from "fs";
-
-import { headers, type IResult } from "./csv.type";
+import csv from 'csv-parser';
+import fs from 'fs';
 
 export interface ICsvBusiness {
   parseCsv<T>(filePath: string, headers: string[]): Promise<T[]>;
@@ -13,12 +11,12 @@ export default class CsvBusiness implements ICsvBusiness {
 
     return new Promise((resolve, reject) => {
       fs.createReadStream(filePath)
-        .pipe(csv({ headers: headers }))
-        .on("data", (data: any) => results.push(data))
-        .on("end", () => {
+        .pipe(csv({headers: headers}))
+        .on('data', (data: any) => results.push(data))
+        .on('end', () => {
           resolve(results);
         })
-        .on("error", (error) => {
+        .on('error', (error) => {
           reject(error);
         });
     });

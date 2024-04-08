@@ -1,4 +1,4 @@
-import express, {Express} from 'express';
+import express, {Express, Router} from 'express';
 import dotenv from 'dotenv';
 
 import dbConfig from './db';
@@ -7,9 +7,10 @@ import csvRouter from './csv/csv.router';
 dotenv.config();
 
 const app: Express = express();
-const port = process.env.PORT || 3000;
 
-app.get('/csv', csvRouter);
+const port = 3000;
+
+app.use('/csv', csvRouter);
 
 const startServer = async () => {
   try {
